@@ -22,14 +22,8 @@ class My_supervised_PCA:
 
     def delta_kernel(self, Y):
         Y = Y.ravel()
-        n_samples = len(Y)
-        delta_kernel = np.zeros((n_samples, n_samples))
-        for sample_index_1 in range(n_samples):
-            for sample_index_2 in range(n_samples):
-                if Y[sample_index_1] == Y[sample_index_2]:
-                    delta_kernel[sample_index_1, sample_index_2] = 1
-                else:
-                    delta_kernel[sample_index_1, sample_index_2] = 0
+        grid_x, grid_y = np.meshgrid(Y, Y)
+        delta_kernel = np.where(grid_x == grid_y, 1., 0.)
         return delta_kernel
 
     def fit(self, X, Y):
